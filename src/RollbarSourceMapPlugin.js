@@ -78,9 +78,7 @@ class RollbarSourceMapPlugin {
   }
 
   getMinifiedUrl(sourceFile) {
-    return this.nextJs ?
-      `${this.publicPath}/_next/${sourceFile.replace('bundles/pages/', `${this.buildId}/page/`)}` :
-      `${this.publicPath}/${sourceFile}`;
+    return this.nextJs ? `${this.publicPath}/_next/${sourceFile}` : `${this.publicPath}/${sourceFile}`;
   }
 
   uploadSourceMap(compilation, { sourceFile, sourceMap }, cb) {

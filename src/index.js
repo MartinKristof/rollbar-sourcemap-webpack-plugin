@@ -8,9 +8,11 @@ export const withRollbar = (nextConfig = {}) => Object.assign({}, nextConfig, {
     }
 
     const { dev, buildId, isServer } = options;
+    const customConfig = config;
 
     if (!dev && !isServer) {
       const { accessToken, publicPath } = nextConfig;
+      customConfig.output.futureEmitAssets = false;
 
       const rollbarPlugin = new RollbarSourceMapPlugin({
         accessToken,
@@ -19,14 +21,14 @@ export const withRollbar = (nextConfig = {}) => Object.assign({}, nextConfig, {
         buildId,
         nextJs: true,
       });
-      config.plugins.push(rollbarPlugin);
+      customConfig.plugins.push(rollbarPlugin);
     }
 
     if (typeof nextConfig.webpack === 'function') {
-      return nextConfig.webpack(config, options);
+      return nextConfig.webpack(customConfig, options);
     }
 
-    return config;
+    return customConfig;
   }
 });
 

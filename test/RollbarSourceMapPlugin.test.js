@@ -453,16 +453,16 @@ describe('RollbarSourceMapPlugin', function () {
     });
 
     it('should get minified url without nextJs (bundle dir)', function (done) {
-      const source = 'bundles/pages/vendor.5190.js';
+      const source = 'static/BWCpBIkBQYD7C7JrA7F4f/pages/_app.js';
 
-      expect(this.plugin.getMinifiedUrl(source)).toEqual('https://my.cdn.net/assets/bundles/pages/vendor.5190.js');
+      expect(this.plugin.getMinifiedUrl(source)).toEqual('https://my.cdn.net/assets/static/BWCpBIkBQYD7C7JrA7F4f/pages/_app.js');
       done();
     });
 
     it('should get minified url with nextJs (bundle dir)', function (done) {
-      const source = 'bundles/pages/vendor.5190.js';
+      const source = 'static/BWCpBIkBQYD7C7JrA7F4f/pages/_app.js';
       this.plugin.nextJs = true;
-      expect(this.plugin.getMinifiedUrl(source)).toEqual('https://my.cdn.net/assets/_next/3344/page/vendor.5190.js');
+      expect(this.plugin.getMinifiedUrl(source)).toEqual('https://my.cdn.net/assets/_next/static/BWCpBIkBQYD7C7JrA7F4f/pages/_app.js');
       done();
     });
   });
@@ -472,15 +472,15 @@ describe('RollbarSourceMapPlugin', function () {
       this.info = spyOn(console, 'info');
       this.compilation = {
         assets: {
-          'bundles/pages/vendor.5190.js.map': { source: () => '{"version":3,"sources":[]' },
-          'bundles/pages/app.81c1.js.map': { source: () => '{"version":3,"sources":[]' },
+          'static/3344/pages/vendor.5190.js.map': { source: () => '{"version":3,"sources":[]' },
+          'static/3344/pages/app.81c1.js.map': { source: () => '{"version":3,"sources":[]' },
         },
         errors: []
       };
 
       this.chunk = {
-        sourceFile: 'bundles/pages/vendor.5190.js',
-        sourceMap: 'bundles/pages/vendor.5190.js.map'
+        sourceFile: 'static/3344/pages/vendor.5190.js',
+        sourceMap: 'static/3344/pages/vendor.5190.js.map'
       };
     });
 
@@ -499,7 +499,7 @@ describe('RollbarSourceMapPlugin', function () {
         if (err) {
           return done(err);
         }
-        expect(this.info).toHaveBeenCalledWith('Uploaded https://my.cdn.net/assets/_next/3344/page/vendor.5190.js.map to Rollbar');
+        expect(this.info).toHaveBeenCalledWith('Uploaded https://my.cdn.net/assets/_next/static/3344/pages/vendor.5190.js.map to Rollbar');
         done();
       });
     });
@@ -516,7 +516,7 @@ describe('RollbarSourceMapPlugin', function () {
         if (err) {
           return done(err);
         }
-        expect(this.info).toHaveBeenCalledWith('Uploaded https://my.cdn.net/assets/_next/3344/page/vendor.5190.js.map to Rollbar');
+        expect(this.info).toHaveBeenCalledWith('Uploaded https://my.cdn.net/assets/_next/static/3344/pages/vendor.5190.js.map to Rollbar');
         done();
       });
     });
@@ -531,7 +531,7 @@ describe('RollbarSourceMapPlugin', function () {
       this.plugin.uploadSourceMap(compilation, chunk, (err) => {
         expect(err).toExist();
         expect(err).toInclude({
-          message: 'failed to upload https://my.cdn.net/assets/_next/3344/page/vendor.5190.js.map to Rollbar: missing source_map file upload'
+          message: 'failed to upload https://my.cdn.net/assets/_next/static/3344/pages/vendor.5190.js.map to Rollbar: missing source_map file upload'
         });
         done();
       });
@@ -546,7 +546,7 @@ describe('RollbarSourceMapPlugin', function () {
       this.plugin.nextJs = true;
       this.plugin.uploadSourceMap(compilation, chunk, (err) => {
         expect(err).toExist();
-        expect(err.message).toMatch(/failed to upload https:\/\/my.cdn.net\/assets\/_next\/3344\/page\/vendor\.5190.js\.map to Rollbar: [\w\s]+/);
+        expect(err.message).toMatch(/failed to upload https:\/\/my.cdn.net\/assets\/_next\/static\/3344\/pages\/vendor\.5190.js\.map to Rollbar: [\w\s]+/);
         done();
       });
     });
@@ -561,7 +561,7 @@ describe('RollbarSourceMapPlugin', function () {
       this.plugin.uploadSourceMap(compilation, chunk, (err) => {
         expect(err).toExist();
         expect(err).toInclude({
-          message: 'failed to upload https://my.cdn.net/assets/_next/3344/page/vendor.5190.js.map to Rollbar: something awful happened'
+          message: 'failed to upload https://my.cdn.net/assets/_next/static/3344/pages/vendor.5190.js.map to Rollbar: something awful happened'
         });
         done();
       });

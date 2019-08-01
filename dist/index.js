@@ -26,11 +26,13 @@ var withRollbar = exports.withRollbar = function withRollbar() {
           buildId = options.buildId,
           isServer = options.isServer;
 
+      var customConfig = config;
 
       if (!dev && !isServer) {
         var accessToken = nextConfig.accessToken,
             publicPath = nextConfig.publicPath;
 
+        customConfig.output.futureEmitAssets = false;
 
         var rollbarPlugin = new RollbarSourceMapPlugin({
           accessToken: accessToken,
@@ -39,14 +41,14 @@ var withRollbar = exports.withRollbar = function withRollbar() {
           buildId: buildId,
           nextJs: true
         });
-        config.plugins.push(rollbarPlugin);
+        customConfig.plugins.push(rollbarPlugin);
       }
 
       if (typeof nextConfig.webpack === 'function') {
-        return nextConfig.webpack(config, options);
+        return nextConfig.webpack(customConfig, options);
       }
 
-      return config;
+      return customConfig;
     }
   });
 };
